@@ -1,6 +1,6 @@
 SHELL = bash
 all:
-	@echo -e "Ljinux package builder.\n\nUsage:\n\tmake package\n\tmake clean"
+	@echo -e "Ljinux farland builder.\n\nUsage:\n\tmake package\n\tmake clean"
 update_modules:
 	@echo "Updating git submodules from remotes.."
 	@git submodule update --init --recursive --remote .
@@ -10,6 +10,8 @@ modules:
 	@git submodule update --init --recursive .
 	@echo "Submodules ready"
 package: modules
+	@python3 -u scripts/make_lib.py
 	@python3 -u scripts/generate_package.py
 clean:
-	@if [ -e "package.jpk" ]; then rm package.jpk; fi
+	@if [ -e "farland.jpk" ]; then rm farland.jpk; fi
+	@if [ -e "./files/adafruit_framebuf.mpy" ]; then rm ./files/adafruit_framebuf.mpy; fi
