@@ -1,6 +1,11 @@
-print("""
-    This script is run during the first install of the package.
-    
-    You should copy the files you want in the system from here.
-    You should NOT bother with the manifest or the uninstall files from here.
-""")
+for filee in ["farland.lja", "farland.py"]:
+    ljinux.api.var("argj", f"cp {filee} /bin/{filee}")
+    ljinux.based.command.fpexecc([None, "/bin/cp.py"])
+
+ljinux.api.var("argj", f"cp font5x8.bin /etc/font5x8.bin")
+ljinux.based.command.fpexecc([None, "/bin/cp.py"])
+
+ljinux.api.var("argj", "cp adafruit_framebuf.mpy &/lib/adafruit_framebuf.mpy")
+ljinux.based.command.fpexecc([None, "/bin/cp.py"])
+
+ljinux.api.var("return", "0")

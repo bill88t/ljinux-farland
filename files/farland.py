@@ -1,116 +1,166 @@
 opts = ljinux.api.xarg()
+li = opts["hw"] + opts["w"]
+del opts  # no opts needed, just words
+farland_prefix = f"{colors.red_t}Farland{colors.endc}: "
+help_t = """Ljinux farland
 
-if "display" in ljinux.modules and ljinux.modules["network"].connected:
-    typee = ljinux.based.user_vars["argj"].split()[
-        1
-    ]  # "text / pixel / rectangle / line / circle / triangle / fill"
-    if typee == "text":  # x, y, color, text in ""
-        try:
-            xi = 0
-            xi = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[2], int)
-            yi = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[3], int)
-            txt = ""  # ljinux.based.user_vars["argj"].split()[5]
-            col = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[4], int)
-            if (
-                ljinux.based.user_vars["argj"].split()[5].startswith('"')
-            ):  # let's do some string proccessing!
-                countt = len(
-                    ljinux.based.user_vars["argj"].split()
-                )  # get the numb of args
-                if countt > 6:
-                    txt += (
-                        str(ljinux.based.user_vars["argj"].split()[5])[1:] + " "
-                    )  # get the first word, remove last char (")
-                    if ljinux.based.user_vars["argj"].split()[countt - 1].endswith('"'):
-                        for i in range(
-                            6, countt - 1
-                        ):  # make all the words one thicc string
-                            txt += str(ljinux.based.user_vars["argj"].split()[i]) + " "
-                        txt += str(ljinux.based.user_vars["argj"].split()[countt - 1])[
-                            :-1
-                        ]  # last word without last char (")
-                    else:
-                        ljinux.based.error(9)
-                else:
-                    txt += str(ljinux.based.user_vars["argj"].split()[5])[1:-1]
-            else:
-                ljinux.based.error(9)
-            ljinux.farland.text(txt, xi, yi, col)
-        except (IndexError, ValueError):
-            ljinux.based.error(9)
-    elif typee == "dot":  # x,y,col
-        try:
-            xi = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[2], int)
-            yi = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[3], int)
-            col = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[4], int)
-            ljinux.farland.pixel(xi, yi, col)
-        except (IndexError, ValueError):
-            ljinux.based.error(9)
-    elif (
-        typee == "rectangle"
-    ):  # x start, y start, x stop, y stop, color, mode (fill / border)
-        try:
-            xi = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[2], int)
-            yi = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[3], int)
-            xe = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[4], int)
-            ye = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[5], int)
-            col = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[6], int)
-            modd = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[7], str)
-            ljinux.farland.public = [xi, yi, xe, ye, col, modd]
-            ljinux.based.command.fpexecc([None, "/LjinuxRoot/bin/display_f/rect.py"])
-        except (IndexError, ValueError):
-            ljinux.based.error(9)
-    elif typee == "line":  # x start, y start, x stop, y stop, color
-        try:
-            xi = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[2], int)
-            yi = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[3], int)
-            xe = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[4], int)
-            ye = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[5], int)
-            col = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[6], int)
-            ljinux.farland.public = [xi, yi, xe, ye, col]
-            ljinux.based.command.fpexecc([None, "/LjinuxRoot/bin/display_f/line.py"])
-        except (IndexError, ValueError):
-            ljinux.based.error(9)
-    elif (
-        typee == "circle"
-    ):  # x center, y center, rad, color, mode (fill/ border / template) TODO fix fill and do template
-        try:
-            xi = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[2], int)
-            yi = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[3], int)
-            radd = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[4], int)
-            col = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[5], int)
-            modd = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[6], str)
-            a = modd != "fill"
-            ljinux.farland.draw_circle(xi, yi, radd, col, a)
-            del a, xi, yi, radd, col, modd
-        except (IndexError, ValueError):
-            ljinux.based.error(9)
-    elif (
-        typee == "triangle"
-    ):  # x point 1, y point 1, x point 2, y point 2, x point 3, y point 3, color, mode (fill/ border)
-        ljinux.based.command.fpexecc([None, "/bin/display_f/triangle_execution.py"])
-    elif typee == "fill":  # color
-        try:
-            col = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[2], int)
-            ljinux.farland.fill(col)
-        except (IndexError, ValueError):
-            ljinux.based.error(9)
-    elif typee == "rhombus":  # todo
-        pass
-    elif typee == "move":  # todo
-        pass
-    elif typee == "delete":  # todo more
-        optt = ljinux.api.adv_input(ljinux.based.user_vars["argj"].split()[2], int)
-        if optt == "all":
-            ljinux.farland.clear()
-        else:
-            ljinux.based.error(1)
-    elif typee == "refresh":
-        ljinux.farland.frame()
+Usage:
+    farland setup [scl] [sda] [optional: width] [optional: height]
+    farland pixel [x] [y] [color]
+    farland line [xstart] [ystart] [xend] [yend] [color]
+    farland circle [xcenter] [ycenter] [radius] [color]
+    farland filled_circle [xcenter] [ycenter] [radius] [color]
+    farland triangle [x1] [y1] [x2] [y2] [x3] [y3] [color]
+    farland filled_triangle [x1] [y1] [x2] [y2] [x3] [y3] [color]
+    farland text [x] [y] [text] [color]
+    farland fill [color]
+"""
+
+if len(li) > 0 and li[0] == "setup":
+    if "display" in ljinux.modules:
+        # Prepare args
+        for pin in [int(li[1]), int(li[2])]:
+            if pin not in pintab:
+                del pin
+                raise Exception("Pin unknown")
+            elif pin in pin_alloc:
+                del pin
+                raise Exception("Pin in use")
+            pin_alloc.add(pin)
+            del pin
+
+        x = 128 if len(li) < 4 else li[3]
+        y = 64 if len(li) < 5 else li[4]
+        # Setup
+        ljinux.modules["display"].setup(pintab[int(li[1])], pintab[int(li[2])], x, y)
+        del x, y
     else:
-        ljinux.based.error(1)
-    del typee
+        print(farland_prefix + "No display kernel module loaded.")
+elif "display" in ljinux.modules and ljinux.modules["display"].connected:
+    if len(li) > 0:
+        if li[0] == "pixel":
+            if len(li) is 4:
+                ljinux.modules["display"].pixel(
+                    int(li[1]), int(li[2]), int(li[3])
+                )  # x, y, col
+            else:
+                print(
+                    farland_prefix
+                    + "Position and color arguments required.\n"
+                    + 'Example: "farland pixel 10 20 1", draws a pixel in [10, 20] with color 1.'
+                )
+        elif li[0] == "line":
+            if len(li) is 6:
+                ljinux.modules["display"].line(
+                    int(li[1]), int(li[2]), int(li[3]), int(li[4]), int(li[5])
+                )
+                # xstart, ystart, xend, yend, col
+            else:
+                print(
+                    farland_prefix
+                    + "Start position, end position and color arguments required.\n"
+                    + 'Example: "farland line 10 20 30 40 1"\n'
+                    + "Which draws a line from [10, 20] to [30, 40] with color 1."
+                )
+        elif li[0] == "circle":
+            if len(li) is 5:
+                ljinux.modules["display"].circle(
+                    int(li[1]), int(li[2]), int(li[3]), int(li[4])
+                )
+                # xcenter, ycenter, radius, col
+            else:
+                print(
+                    farland_prefix
+                    + "Center position, radius and color arguments required.\n"
+                    + 'Example: "farland circle 10 20 5 1"\n'
+                    + "Which draws a circle with center [10, 20] with radius 5 and color 1."
+                )
+        elif li[0] == "filled_circle":
+            if len(li) is 5:
+                ljinux.modules["display"].circle(
+                    int(li[1]), int(li[2]), int(li[3]), int(li[4]), fill=True
+                )
+                # xcenter, ycenter, radius, col
+            else:
+                print(
+                    farland_prefix
+                    + "Center position, radius and color arguments required.\n"
+                    + 'Example: "farland filled_circle 10 20 5 1"\n'
+                    + "Which draws a filled circle with center [10, 20] with radius 5 and color 1."
+                )
+        elif li[0] == "triangle":
+            if len(li) is 8:
+                ljinux.modules["display"].triangle(
+                    int(li[1]),
+                    int(li[2]),
+                    int(li[3]),
+                    int(li[4]),
+                    int(li[5]),
+                    int(li[6]),
+                    int(li[7]),
+                )
+                # x1, y1, x2, y2, x3, y3, col
+            else:
+                print(
+                    farland_prefix
+                    + "3 point positions and color arguments required.\n"
+                    + 'Example: "farland triangle 1 1 5 5 12 20 1"\n'
+                    + "Which draws a triangle with points [1, 1], [5, 5], [12, 20] and color 1."
+                )
+        elif li[0] == "filled_triangle":
+            if len(li) is 8:
+                ljinux.modules["display"].triangle(
+                    int(li[1]),
+                    int(li[2]),
+                    int(li[3]),
+                    int(li[4]),
+                    int(li[5]),
+                    int(li[6]),
+                    int(li[7]),
+                    fill=True,
+                )
+                # x1, y1, x2, y2, x3, y3, col
+            else:
+                print(
+                    farland_prefix
+                    + "3 point positions and color arguments required.\n"
+                    + 'Example: "farland filled_triangle 1 1 5 5 12 20 1"\n'
+                    + "Which draws a filled triangle with points [1, 1], [5, 5], [12, 20] and color 1."
+                )
+        elif li[0] == "square":
+            pass
+        elif li[0] == "filled_square":
+            pass
+        elif li[0] == "text":
+            if len(li) is 5:
+                ljinux.modules["display"].text(
+                    int(li[1]), int(li[2]), li[3], int(li[4])
+                )
+                # x, y, text, col
+            else:
+                print(
+                    farland_prefix
+                    + "Position, text and color arguments required.\n"
+                    + 'Example: "farland text 1 1 amogus 1"\n'
+                    + "Which writes amogus from [1, 1] with color 1."
+                )
+        elif li[0] == "fill":
+            if len(li) is 2:
+                ljinux.modules["display"].fill(int(li[1]))
+            else:
+                print(
+                    farland_prefix
+                    + "Color argument required.\n"
+                    + 'Example: "farland fill 1"\n'
+                    + "Fills the display with color 1."
+                )
+        else:
+            print(help_t)
+    else:
+        print(help_t)
 else:
-    ljinux.based.error(6)
+    if len(li) is 0:
+        print(help_t)
+    ljinux.based.error(6, prefix=f"{colors.red_t}Farland{colors.endc}")
 
-del opts
+del li, farland_prefix, help_t

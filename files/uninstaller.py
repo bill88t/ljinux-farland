@@ -1,7 +1,11 @@
-print("""
-    This script is run when a users uninstalls the package.
-    
-    It will not run during an update.
-    Here you should purge all the files you installed with your install script.
-    Do not nuke the system.
-""")
+for filee in ["farland.lja", "farland.py"]:
+    ljinux.api.var("argj", f"rm /bin/{filee}")
+    ljinux.based.command.fpexecc([None, "/bin/rm.py"])
+
+ljinux.api.var("argj", f"rm /etc/font5x8.bin")
+ljinux.based.command.fpexecc([None, "/bin/rm.py"])
+
+ljinux.api.var("argj", "rm &/lib/adafruit_framebuf.mpy")
+ljinux.based.command.fpexecc([None, "/bin/rm.py"])
+
+ljinux.api.var("return", "0")
